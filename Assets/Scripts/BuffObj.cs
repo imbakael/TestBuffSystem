@@ -9,16 +9,15 @@ public class BuffObj {
     public bool permanent;
     public int stack;
     public int duration; // 持续多少回合
-    public int timeElapsed; // 已经存在多少回合
+    public int timeElapsed = 0; // 已经存在多少回合
 
-    public BuffObj(BuffModel buffModel, ChaState caster, ChaState carrier, bool permanent, int stack, int duration, int timeElapsed) {
+    public BuffObj(BuffModel buffModel, ChaState caster, ChaState carrier, bool permanent, int stack, int duration) {
         this.buffModel = buffModel;
         this.caster = caster;
         this.carrier = carrier;
         this.permanent = permanent;
         this.stack = stack;
         this.duration = duration;
-        this.timeElapsed = timeElapsed;
     }
 }
 

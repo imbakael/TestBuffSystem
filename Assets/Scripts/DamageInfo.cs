@@ -16,7 +16,7 @@ public class DamageInfo {
 
     private float hitRate;
 
-    //public List<AddBuffInfo> addBuffs = new List<AddBuffInfo>(); // 伤害后给角色添加的buff
+    public List<AddBuffInfo> addBuffs = new List<AddBuffInfo>(); // 伤害后给角色添加的buff
 
     public DamageInfo(ChaState attacker, ChaState defender, Damage damage, DamageInfoTag[] tags, float critRate, float hitRate) {
         this.attacker = attacker;
@@ -25,11 +25,6 @@ public class DamageInfo {
         this.tags = tags;
         this.critRate = critRate;
         this.hitRate = hitRate;
-    }
-
-    public int GetDamageValue() {
-        bool isCrit = Random.Range(0f, 1f) <= critRate;
-        return Mathf.CeilToInt(damage.OverAll() * (isCrit ? 2f : 1f));
     }
 
     public static void DealWithDamge(DamageInfo damageInfo) {
@@ -67,6 +62,9 @@ public class DamageInfo {
         // 5.根据最后的damageInfo进行扣血操作
 
         // 6.伤害流程走完后对双方添加buff
-
+        for (int i = 0; i < damageInfo.addBuffs.Count; i++) {
+            AddBuffInfo addBuffInfo = damageInfo.addBuffs[i];
+            addBuffInfo.target.AddBuff(addBuffInfo);
+        }
     }
 }

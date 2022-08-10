@@ -8,6 +8,7 @@ public class ChaState {
     public bool IsDead => resource.hp <= 0;
 
     public ChaProperty currentProp;
+
     private ChaProperty baseProp; // 基础属性，可成长
     private ChaProperty buffProp; // buff带来的属性
     private ChaProperty equipmentProp; // 装备属性
@@ -44,13 +45,13 @@ public class ChaState {
             var buff = new BuffObj(addBuffInfo.buffModel, addBuffInfo.caster, addBuffInfo.caster, 
                 addBuffInfo.permanent, addBuffInfo.addStack, addBuffInfo.duration);
             buffs.Add(buff);
-            buffs.Sort((a, b) => -a.buffModel.priority.CompareTo(b.buffModel.priority)); // 降序，先执行优先级高的buff
+            buffs.Sort((a, b) => -a.model.priority.CompareTo(b.model.priority)); // 降序，先执行优先级高的buff
             int modifyStack = Mathf.Clamp(addBuffInfo.addStack, 0, addBuffInfo.buffModel.maxStack);
             addBuffInfo.buffModel.onOccur?.Invoke(buff, modifyStack);
         }
     }
 
     private BuffObj GetBuff(int buffId) {
-        return buffs.Where(t => t.buffModel.id == buffId).FirstOrDefault();
+        return buffs.Where(t => t.model.id == buffId).FirstOrDefault();
     }
 }

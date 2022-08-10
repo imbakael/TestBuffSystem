@@ -37,26 +37,26 @@ public class DamageInfo {
         if (attacker != null) {
             for (int i = 0; i < attacker.buffs.Count; i++) {
                 BuffObj buff = attacker.buffs[i];
-                buff.buffModel.onHit?.Invoke(buff, ref damageInfo);
+                buff.model.onHit?.Invoke(buff, ref damageInfo);
             }
         }
         // 2.受击者自身buff减免伤害，比如降低5点所受的物理伤害
         for (int i = 0; i < defender.buffs.Count; i++) {
             BuffObj buff = defender.buffs[i];
-            buff.buffModel.onBeHurt?.Invoke(buff, ref damageInfo);
+            buff.model.onBeHurt?.Invoke(buff, ref damageInfo);
         }
         if (defender.CanBeKilled(damageInfo)) {
             // 3.攻击者击杀敌人后触发击杀效果，如击杀敌人后自身加一个攻击+2的buff
             if (attacker != null) {
                 for (int i = 0; i < attacker.buffs.Count; i++) {
                     BuffObj buff = attacker.buffs[i];
-                    buff.buffModel.onKill?.Invoke(buff, damageInfo);
+                    buff.model.onKill?.Invoke(buff, damageInfo);
                 }
             }
             // 4.受击者死亡后触发效果，如死亡后沉默敌人(给敌人上一个debuff)
             for (int i = 0; i < defender.buffs.Count; i++) {
                 BuffObj buff = defender.buffs[i];
-                buff.buffModel.onBeKilled?.Invoke(buff, damageInfo);
+                buff.model.onBeKilled?.Invoke(buff, damageInfo);
             }
         }
         // 5.根据最后的damageInfo进行扣血操作，只有此时才会用到受击者的防御和抗性进行伤害减免

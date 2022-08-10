@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BuffObj {
-    public BuffModel buffModel;
+    public BuffModel model;
     public ChaState caster;
     public ChaState carrier;
     public bool permanent;
@@ -11,8 +11,8 @@ public class BuffObj {
     public int duration; // 持续多少回合
     public int timeElapsed = 0; // 已经存在多少回合
 
-    public BuffObj(BuffModel buffModel, ChaState caster, ChaState carrier, bool permanent, int stack, int duration) {
-        this.buffModel = buffModel;
+    public BuffObj(BuffModel model, ChaState caster, ChaState carrier, bool permanent, int stack, int duration) {
+        this.model = model;
         this.caster = caster;
         this.carrier = carrier;
         this.permanent = permanent;

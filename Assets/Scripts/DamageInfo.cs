@@ -16,6 +16,10 @@ public class DamageInfo {
 
     private float hitRate;
 
+    private int ignoreDefence = 0; // 无视防守者固定值的防御，如无视5点防御
+
+    private int ignoreDefencePercent = 0; // 无视防守者百分比的防御
+
     public List<AddBuffInfo> addBuffs = new List<AddBuffInfo>(); // 伤害后给角色添加的buff
 
     public DamageInfo(ChaState attacker, ChaState defender, Damage damage, DamageInfoTag[] tags, float critRate, float hitRate) {
@@ -40,7 +44,7 @@ public class DamageInfo {
                 buff.model.onHit?.Invoke(buff, ref damageInfo);
             }
         }
-        // 2.受击者自身buff减免伤害，比如降低5点所受的物理伤害
+        // 2.受击者自身buff减免伤害，比如降低5点所受的物理伤害、或者大盾触发直接把damage清零
         for (int i = 0; i < defender.buffs.Count; i++) {
             BuffObj buff = defender.buffs[i];
             buff.model.onBeHurt?.Invoke(buff, ref damageInfo);
@@ -59,8 +63,8 @@ public class DamageInfo {
                 buff.model.onBeKilled?.Invoke(buff, damageInfo);
             }
         }
-        // 5.根据最后的damageInfo进行扣血操作，只有此时才会用到受击者的防御和抗性进行伤害减免
-        int damage = GetDamageValue(defender.currentProp, damageInfo);
+        // 5.根据最后的damageInfo进行扣血操作，此时damageInfo中的damag值才会确定，才会用到受击者的防御和抗性进行最终伤害计算
+        int damage = GetDamageValue(damageInfo, defender.currentProp);
         defender.ModifyResource(new ChaResource(-damage));
         // 6.伤害流程走完后对双方添加buff
         for (int i = 0; i < damageInfo.addBuffs.Count; i++) {
@@ -72,29 +76,24 @@ public class DamageInfo {
     /// <summary>
     /// 获得指定属性下damageInfo造成的伤害值
     /// </summary>
-    /// <param name="chaProperty">角色属性</param>
     /// <param name="damageInfo">伤害info</param>
+    /// <param name="chaProperty">角色属性</param>
     /// <returns></returns>
-    public static int GetDamageValue(ChaProperty chaProperty, DamageInfo damageInfo) {
+    public static int GetDamageValue(DamageInfo damageInfo, ChaProperty chaProperty) {
         Damage damage = damageInfo.damage;
-        float physics = (100 - chaProperty.physicsResist) / 100f * GetPositiveValue(damage.physics, chaProperty.defence);
-        float fire = (100 - chaProperty.fireResist) / 100f * GetPositiveValue(damage.fire, chaProperty.elemDefence);
-        float ice = (100 - chaProperty.iceResist) / 100f * GetPositiveValue(damage.ice, chaProperty.elemDefence);
-        float thunder = (100 - chaProperty.thunderResist) / 100f * GetPositiveValue(damage.thunder, chaProperty.elemDefence);
-        float poison = (100 - chaProperty.poisonResist) / 100f * GetPositiveValue(damage.poison, chaProperty.elemDefence);
-        float light = (100 - chaProperty.lightResist) / 100f * GetPositiveValue(damage.light, chaProperty.elemDefence);
-        float dark = (100 - chaProperty.darkResist) / 100f * GetPositiveValue(damage.dark, chaProperty.elemDefence);
+        float realDefence = Mathf.Max(0, GetPercent(damageInfo.ignoreDefencePercent) * chaProperty.defence - damageInfo.ignoreDefence);
+        float physics = GetPercent(chaProperty.physicsResist) * Mathf.Max(0, damage.physics - realDefence);
+        float fire = GetPercent(chaProperty.fireResist) * Mathf.Max(0, damage.fire - chaProperty.elemDefence);
+        float ice = GetPercent(chaProperty.iceResist) * Mathf.Max(0, damage.ice - chaProperty.elemDefence);
+        float thunder = GetPercent(chaProperty.thunderResist) * Mathf.Max(0, damage.thunder - chaProperty.elemDefence);
+        float poison = GetPercent(chaProperty.poisonResist) * Mathf.Max(0, damage.poison - chaProperty.elemDefence);
+        float light = GetPercent(chaProperty.lightResist) * Mathf.Max(0, damage.light - chaProperty.elemDefence);
+        float dark = GetPercent(chaProperty.darkResist) * Mathf.Max(0, damage.dark - chaProperty.elemDefence);
         return Mathf.CeilToInt(physics + fire + ice + thunder + poison + light + dark);
     }
 
-    /// <summary>
-    /// 获得正数值
-    /// </summary>
-    /// <param name="subtrahend">减数</param>
-    /// <param name="minuend">被减数</param>
-    /// <returns></returns>
-    private static int GetPositiveValue(int subtrahend, int minuend) {
-        int delta = subtrahend - minuend;
-        return delta > 0 ? delta : 0;
+    private static float GetPercent(int value) {
+        return (100 - value) / 100f;
     }
+
 }

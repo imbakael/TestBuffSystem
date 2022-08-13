@@ -12,9 +12,9 @@ public class Test : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            Debug.Log("index = " + GetRandomIndex(test));
-        }
+        //if (Input.GetKeyDown(KeyCode.Space)) {
+        //    Debug.Log("index = " + GetRandomIndex(test));
+        //}
     }
 
     private int GetRandomIndex(List<int> target) {

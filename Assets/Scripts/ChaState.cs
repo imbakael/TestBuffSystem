@@ -17,7 +17,7 @@ public class ChaState {
     public List<BuffObj> buffs = new List<BuffObj>();
 
     public bool CanBeKilled(DamageInfo damageInfo) {
-        int damage = DamageInfo.GetDamageValue(damageInfo, currentProp);
+        int damage = DamageManager.GetDamageValue(damageInfo, currentProp);
         return resource.hp <= damage;
     }
 

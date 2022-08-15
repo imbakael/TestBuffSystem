@@ -49,6 +49,7 @@ public class ChaState {
             int modifyStack = Mathf.Clamp(addBuffInfo.addStack, 0, addBuffInfo.buffModel.maxStack);
             addBuffInfo.buffModel.onOccur?.Invoke(buff, modifyStack);
         }
+        // 重新计算buff改变的属性
     }
 
     private BuffObj GetBuff(int buffId) {

@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour {
     }
 
     private void ActionCamp(List<bool> target, Camp next) {
+        // 1.回合开始时要做的事：首先遍历全体buff列表，执行回合开始时触发的效果，如中毒的扣血、净化天赋的去除所有debuff效果
+
+        // 2.回合中，玩家则等待玩家行动结束，AI则依次行动
         int actionCount = 0;
         for (int i = 0; i < target.Count; i++) {
             if (!target[i]) {
@@ -39,6 +42,8 @@ public class GameManager : MonoBehaviour {
                 actionCount++;
             }
         }
+        // 3.回合结束时要做的事，比如有持续时间的buff时间-1回合、cd中的技能cd-1
+
         if (actionCount == target.Count) {
             ChangeCamp(next);
         }

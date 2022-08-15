@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 普攻、技能、部分buff都会new一个伤害信息，伤害信息经过DamageManager处理后才会进行最终扣血
 public class DamageInfo {
 
     public ChaState attacker;
@@ -12,7 +13,7 @@ public class DamageInfo {
 
     private DamageInfoTag[] tags; // 伤害类型，直接、间接、反弹...
 
-    private float critRate;
+    public bool isCrit = false;
 
     private float hitRate;
 
@@ -27,12 +28,12 @@ public class DamageInfo {
 
     public List<AddBuffInfo> addBuffs = new List<AddBuffInfo>(); // 伤害后给角色添加的buff
 
-    public DamageInfo(ChaState attacker, ChaState defender, Damage damage, DamageInfoTag[] tags, float critRate, float hitRate) {
+    public DamageInfo(ChaState attacker, ChaState defender, Damage damage, DamageInfoTag[] tags, bool isCrit, float hitRate) {
         this.attacker = attacker;
         this.defender = defender;
         this.damage = damage;
         this.tags = tags;
-        this.critRate = critRate;
+        this.isCrit = isCrit;
         this.hitRate = hitRate;
     }
 

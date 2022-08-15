@@ -16,7 +16,9 @@ public class Damage {
     public int light;
     public int dark;
 
-    public Damage(int physics = 0, int fire = 0, int ice = 0, int thunder = 0, int poison = 0, int light = 0, int dark = 0) {
+    public int real; // 真实伤害，无视防御和抗性，比如扣除当前30%生命值，此伤害即为真实伤害；又如回复10hp、回复最大生命的10%生命值，也属于真实伤害
+
+    public Damage(int physics = 0, int fire = 0, int ice = 0, int thunder = 0, int poison = 0, int light = 0, int dark = 0, int real = 0) {
         this.physics = physics;
         this.fire = fire;
         this.ice = ice;
@@ -24,9 +26,6 @@ public class Damage {
         this.poison = poison;
         this.light = light;
         this.dark = dark;
-    }
-
-    public int OverAll() {
-        return physics + fire + ice + thunder + poison + light + dark;
+        this.real = real;
     }
 }

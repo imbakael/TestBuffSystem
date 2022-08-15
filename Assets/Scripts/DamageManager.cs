@@ -84,7 +84,7 @@ public class DamageManager : MonoBehaviour {
         float realDarkDefence = GetPercent(damageInfo.ignoreDarkDefencePercent) * chaProperty.elemDefence;
         float dark = GetPercent(chaProperty.darkResist) * Mathf.Max(0, damage.dark - realDarkDefence);
 
-        return Mathf.RoundToInt(physics + fire + ice + thunder + poison + light + dark);
+        return Mathf.RoundToInt(physics + fire + ice + thunder + poison + light + dark + damage.real);
     }
 
     private static float GetPercent(int value) {

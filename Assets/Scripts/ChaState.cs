@@ -7,14 +7,14 @@ public class ChaState {
 
     public bool IsDead => resource.hp <= 0;
 
-    public ChaProperty currentProp;
-
-    private ChaProperty baseProp; // 基础属性，可成长
-    private ChaProperty buffProp; // buff带来的属性
-    private ChaProperty equipmentProp; // 装备属性
-    private ChaResource resource;
-
+    public ChaProperty currentProp = ChaProperty.zero;
     public List<BuffObj> buffs = new List<BuffObj>();
+
+    private ChaProperty baseProp = ChaProperty.zero; // 基础属性，可成长
+    private ChaProperty buffProp = ChaProperty.zero; // buff带来的属性
+    private ChaProperty equipmentProp = ChaProperty.zero; // 装备属性
+
+    private ChaResource resource;
 
     public bool CanBeKilled(DamageInfo damageInfo) {
         int damage = DamageManager.GetDamageValue(damageInfo, currentProp);
@@ -49,10 +49,20 @@ public class ChaState {
             int modifyStack = Mathf.Clamp(addBuffInfo.addStack, 0, addBuffInfo.buffModel.maxStack);
             addBuffInfo.buffModel.onOccur?.Invoke(buff, modifyStack);
         }
-        // 重新计算buff改变的属性
+        RecheckProperty();
     }
 
     private BuffObj GetBuff(int buffId) {
         return buffs.Where(t => t.model.id == buffId).FirstOrDefault();
+    }
+
+    private void RecheckProperty() {
+        currentProp.Zero();
+        buffProp.Zero();
+        for (int i = 0; i < buffs.Count; i++) {
+            BuffObj buff = buffs[i];
+            buffProp += buff.model.propMod * buff.stack;
+        }
+        currentProp = baseProp + buffProp + equipmentProp;
     }
 }

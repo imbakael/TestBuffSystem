@@ -7,7 +7,7 @@ public class BuffObj {
     public ChaState caster;
     public ChaState carrier;
     public bool permanent;
-    public int stack;
+    public int stack; // 层数，至少1层
     public int duration; // 持续多少回合
     public int timeElapsed = 0; // 已经存在多少回合
 

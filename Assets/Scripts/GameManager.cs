@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour {
                 actionCount++;
             }
         }
-        // 3.回合结束时要做的事，比如有持续时间的buff时间-1回合、cd中的技能cd-1
+        // 3.回合结束时要做的事
 
         if (actionCount == target.Count) {
             ChangeCamp(next);

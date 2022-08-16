@@ -19,36 +19,36 @@ public class DamageManager : MonoBehaviour {
         if (defender == null || defender.IsDead) {
             return;
         }
-        // 1.攻击者自身buff强化伤害，比如持弓时伤害+30%
+
+        // 1.部分buff触发会修改damageInfo
         if (attacker != null) {
             for (int i = 0; i < attacker.buffs.Count; i++) {
                 BuffObj buff = attacker.buffs[i];
                 buff.model.onHit?.Invoke(buff, ref damageInfo);
             }
         }
-        // 2.受击者自身buff减免伤害，比如降低5点所受的物理伤害、或者大盾触发直接把damage清零
         for (int i = 0; i < defender.buffs.Count; i++) {
             BuffObj buff = defender.buffs[i];
             buff.model.onBeHurt?.Invoke(buff, ref damageInfo);
         }
         if (defender.CanBeKilled(damageInfo)) {
-            // 3.攻击者击杀敌人后触发击杀效果，如击杀敌人后自身加一个攻击+2的buff
             if (attacker != null) {
                 for (int i = 0; i < attacker.buffs.Count; i++) {
                     BuffObj buff = attacker.buffs[i];
                     buff.model.onKill?.Invoke(buff, damageInfo);
                 }
             }
-            // 4.受击者死亡后触发效果，如死亡后沉默敌人(给敌人上一个debuff)
             for (int i = 0; i < defender.buffs.Count; i++) {
                 BuffObj buff = defender.buffs[i];
                 buff.model.onBeKilled?.Invoke(buff, damageInfo);
             }
         }
-        // 5.根据最后的damageInfo进行扣血操作，此时damageInfo中的damag值才会确定，才会用到受击者的防御和抗性进行最终伤害计算
+
+        // 2.根据最后的damageInfo进行扣血操作，此时damageInfo中的damag值才会确定，才会用到受击者的防御和抗性进行最终伤害计算
         int damage = GetDamageValue(damageInfo, defender.currentProp);
         defender.ModifyResource(new ChaResource(-damage));
-        // 6.伤害流程走完后对双方添加buff
+
+        // 3.伤害流程走完后对双方添加buff
         for (int i = 0; i < damageInfo.addBuffs.Count; i++) {
             AddBuffInfo addBuffInfo = damageInfo.addBuffs[i];
             addBuffInfo.target.AddBuff(addBuffInfo);

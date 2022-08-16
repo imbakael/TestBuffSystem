@@ -18,11 +18,9 @@ public class BuffModel {
     public BuffOnBeHurt onBeHurt;
     public BuffOnKill onKill;
     public BuffOnBeKilled onBeKilled;
-    public BuffOnTurnEnd onTurnEnd;
 
     public BuffModel(int id, string name, int priority, int maxStack, string[] tags, int tickTime, ChaProperty propMod,
-        BuffOnOccur onOccur, BuffOnTick onTick, BuffOnRemoved onRemoved, BuffOnHit onHit, BuffOnBeHurt onBeHurt, BuffOnKill onKill, BuffOnBeKilled onBeKilled,
-        BuffOnTurnEnd onTurnEnd) {
+        BuffOnOccur onOccur, BuffOnTick onTick, BuffOnRemoved onRemoved, BuffOnHit onHit, BuffOnBeHurt onBeHurt, BuffOnKill onKill, BuffOnBeKilled onBeKilled) {
         this.id = id;
         this.name = name;
         this.priority = priority;
@@ -37,7 +35,6 @@ public class BuffModel {
         this.onBeHurt = onBeHurt;
         this.onKill = onKill;
         this.onBeKilled = onBeKilled;
-        this.onTurnEnd = onTurnEnd;
     }
 }
 
@@ -48,6 +45,4 @@ public delegate void BuffOnHit(BuffObj buff, ref DamageInfo damageInfo); // 攻击
 public delegate void BuffOnBeHurt(BuffObj buff, ref DamageInfo damageInfo); // 受击者受伤害时触发，比如降低50%弓箭伤害
 public delegate void BuffOnKill(BuffObj buff, DamageInfo damageInfo); // 击杀单位时触发，如影魔收集灵魂
 public delegate void BuffOnBeKilled(BuffObj buff, DamageInfo damageInfo); // 被击杀时触发，如死亡后爆炸
-
-public delegate void BuffOnTurnEnd(BuffObj buff); // 己方回合结束时触发，如buff持续时间-1
 

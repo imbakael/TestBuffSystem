@@ -10,11 +10,16 @@ public class ChaState {
     public ChaProperty currentProp = ChaProperty.zero;
     public List<BuffObj> buffs = new List<BuffObj>();
 
-    private ChaProperty baseProp = ChaProperty.zero; // 基础属性，可成长
+    private ChaProperty baseProp; // 基础属性，可成长
     private ChaProperty buffProp = ChaProperty.zero; // buff带来的属性
     private ChaProperty equipmentProp = ChaProperty.zero; // 装备属性
 
     private ChaResource resource;
+
+    public ChaState(ChaProperty baseProp) {
+        this.baseProp = baseProp;
+        RecheckProperty();
+    }
 
     public bool CanBeKilled(DamageInfo damageInfo) {
         int damage = DamageManager.GetDamageValue(damageInfo, currentProp);

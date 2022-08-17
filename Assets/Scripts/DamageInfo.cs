@@ -6,13 +6,9 @@ using UnityEngine;
 public class DamageInfo {
 
     public ChaState attacker;
-
     public ChaState defender;
-
     public Damage damage; // 伤害值，物理、火、毒...
-
     private DamageInfoTag[] tags; // 伤害类型，直接、间接、反弹...
-
     public bool isCrit = false;
 
     // 某些伤害会无视目标百分比的防御，比如攻击附加5点雷属性伤害，此伤害无视元素防御，所以此damageInfo的 ignoreThunderDefencePercent == 100

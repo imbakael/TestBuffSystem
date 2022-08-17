@@ -9,7 +9,7 @@ public class BuffModel {
     public int maxStack; // 最大层数
     public string[] tags; // 比如poison，标记此buff是一个中毒buff
     public int tickTime; // 如2代表每2回合执行一次
-    public ChaProperty propMod;
+    public ChaProperty propMod; // buff附带的属性
 
     public BuffOnOccur onOccur;
     public BuffOnTick onTick;

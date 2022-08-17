@@ -13,6 +13,7 @@ public class DamageManager : MonoBehaviour {
         }
     }
 
+    // 进入到此方法内部，说明此damageInfo必定没有被闪避，闪避与否在外层已判断
     public static void DealWithDamge(DamageInfo damageInfo) {
         ChaState attacker = damageInfo.attacker;
         ChaState defender = damageInfo.defender;
@@ -64,26 +65,26 @@ public class DamageManager : MonoBehaviour {
     public static int GetDamageValue(DamageInfo damageInfo, ChaProperty chaProperty) {
         Damage damage = damageInfo.damage;
         bool isCrit = damageInfo.isCrit;
-        float realDefence = GetPercent(damageInfo.ignoreDefencePercent) * chaProperty.defence;
-        float physics = GetPercent(chaProperty.physicsResist) * Mathf.Max(0, GetCritValue(damage.physics - realDefence, isCrit));
+        float realDefence = chaProperty.defence * GetPercent(damageInfo.ignoreDefencePercent);
+        float physics = Mathf.Max(0, GetCritValue(damage.physics - realDefence, isCrit)) * GetPercent(chaProperty.physicsResist);
 
-        float realFireDefence = GetPercent(damageInfo.ignoreFireDefencePercent) * chaProperty.elemDefence;
-        float fire = GetPercent(chaProperty.fireResist) * Mathf.Max(0, GetCritValue(damage.fire - realFireDefence, isCrit));
+        float realFireDefence = chaProperty.elemDefence * GetPercent(damageInfo.ignoreFireDefencePercent);
+        float fire = Mathf.Max(0, GetCritValue(damage.fire - realFireDefence, isCrit)) * GetPercent(chaProperty.fireResist);
 
-        float realIceDefence = GetPercent(damageInfo.ignoreIceDefencePercent) * chaProperty.elemDefence;
-        float ice = GetPercent(chaProperty.iceResist) * Mathf.Max(0, GetCritValue(damage.ice - realIceDefence, isCrit));
+        float realIceDefence = chaProperty.elemDefence * GetPercent(damageInfo.ignoreIceDefencePercent);
+        float ice =  Mathf.Max(0, GetCritValue(damage.ice - realIceDefence, isCrit)) * GetPercent(chaProperty.iceResist);
 
-        float realThunderDefence = GetPercent(damageInfo.ignoreThunderDefencePercent) * chaProperty.elemDefence;
-        float thunder = GetPercent(chaProperty.thunderResist) * Mathf.Max(0, GetCritValue(damage.thunder - realThunderDefence, isCrit));
+        float realThunderDefence = chaProperty.elemDefence * GetPercent(damageInfo.ignoreThunderDefencePercent);
+        float thunder = Mathf.Max(0, GetCritValue(damage.thunder - realThunderDefence, isCrit)) * GetPercent(chaProperty.thunderResist);
 
-        float realPoisonDefence = GetPercent(damageInfo.ignorePoisonDefencePercent) * chaProperty.elemDefence;
-        float poison = GetPercent(chaProperty.poisonResist) * Mathf.Max(0, GetCritValue(damage.poison - realPoisonDefence, isCrit));
+        float realPoisonDefence = chaProperty.elemDefence * GetPercent(damageInfo.ignorePoisonDefencePercent);
+        float poison = Mathf.Max(0, GetCritValue(damage.poison - realPoisonDefence, isCrit)) * GetPercent(chaProperty.poisonResist);
 
-        float realLightDefence = GetPercent(damageInfo.ignoreLightDefencePercent) * chaProperty.elemDefence;
-        float light = GetPercent(chaProperty.lightResist) * Mathf.Max(0, GetCritValue(damage.light - realLightDefence, isCrit));
+        float realLightDefence = chaProperty.elemDefence * GetPercent(damageInfo.ignoreLightDefencePercent);
+        float light = Mathf.Max(0, GetCritValue(damage.light - realLightDefence, isCrit)) * GetPercent(chaProperty.lightResist);
 
-        float realDarkDefence = GetPercent(damageInfo.ignoreDarkDefencePercent) * chaProperty.elemDefence;
-        float dark = GetPercent(chaProperty.darkResist) * Mathf.Max(0, GetCritValue(damage.dark - realDarkDefence, isCrit));
+        float realDarkDefence = chaProperty.elemDefence * GetPercent(damageInfo.ignoreDarkDefencePercent);
+        float dark = Mathf.Max(0, GetCritValue(damage.dark - realDarkDefence, isCrit)) * GetPercent(chaProperty.darkResist);
 
         return Mathf.RoundToInt(physics + fire + ice + thunder + poison + light + dark + GetCritValue(damage.real, isCrit));
     }

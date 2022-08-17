@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 public class ChaProperty {
 
     public int hp; // 最大hp
@@ -9,7 +11,6 @@ public class ChaProperty {
     public int speed;
     public int skill;
     public int luck;
-    public int con; // 体格
 
     // 各类抗性，取值范围是-200 ~ 95，也就是说最多受到300%伤害，最多减免95%伤害
     // 抗性只能用加法，比如初始物理抗性是0，装备增加20%抗性，buff减少50%抗性，则最终抗性是0 + 20 - 50 = -30
@@ -23,10 +24,9 @@ public class ChaProperty {
 
     // 装备或buff属性
     private int attack = 0;
-    private int hitRate = 0;
     private int critRate = 0;
 
-    public ChaProperty(int hp, int strength, int defence, int elemStrength, int elemDefence, int speed, int skill, int luck, int con,
+    public ChaProperty(int hp, int strength, int defence, int elemStrength, int elemDefence, int speed, int skill, int luck,
         int physicsResist, int fireResist, int iceResist, int thunderResist, int poisonResist, int lightResist, int darkResist) {
         this.hp = hp;
         this.strength = strength;
@@ -36,7 +36,6 @@ public class ChaProperty {
         this.speed = speed;
         this.skill = skill;
         this.luck = luck;
-        this.con = con;
         this.physicsResist = physicsResist;
         this.fireResist = fireResist;
         this.iceResist = iceResist;
@@ -57,7 +56,6 @@ public class ChaProperty {
                 a.speed + b.speed,
                 a.skill + b.skill,
                 a.luck + b.luck,
-                a.con + b.con,
                 a.physicsResist + b.physicsResist,
                 a.fireResist + b.fireResist,
                 a.iceResist + b.iceResist,
@@ -79,7 +77,6 @@ public class ChaProperty {
                 a.speed * b,
                 a.skill * b,
                 a.luck * b,
-                a.con * b,
                 a.physicsResist * b,
                 a.fireResist * b,
                 a.iceResist * b,
@@ -90,7 +87,7 @@ public class ChaProperty {
             );
     }
 
-    public static ChaProperty zero = new ChaProperty(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    public static ChaProperty zero = new ChaProperty(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
     public void Zero() {
         hp = 0;
@@ -101,7 +98,6 @@ public class ChaProperty {
         speed = 0;
         skill = 0;
         luck = 0;
-        con = 0;
         physicsResist = 0;
         fireResist = 0;
         iceResist = 0;
@@ -116,10 +112,17 @@ public class ChaProperty {
     public int PhysicsDefence => defence; // 物理防御力
     public int ElemAttack => elemStrength + attack; // 元素攻击力
     public int ElemDefence => elemDefence; // 元素防御力
-    public int AttackSpeed => speed; // 攻速
-    public int HitRate => skill * 2 + luck / 2 + hitRate; // 命中率
-    public int DodgeRate => AttackSpeed * 2 + luck; // 躲避率
     public int CritRate => skill / 2 + critRate; // 必杀率
     public int CritDodgeRate => luck; // 必杀回避率
+
+    // 速度差会产生躲避率
+    public static float DodgeRate(int attackerSpeed, int defenderSpeed) {
+        int delta = defenderSpeed - attackerSpeed;
+        if (delta < 5) {
+            return 0f;
+        }
+        float rate = delta * 1f / defenderSpeed;
+        return Mathf.Min(rate, 0.3f);
+    }
 
 }

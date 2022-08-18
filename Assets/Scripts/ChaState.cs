@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,13 @@ public class ChaState {
     public bool IsDead => resource.hp <= 0;
 
     public ChaProperty currentProp = ChaProperty.zero;
+    public ChaResource resource;
     public List<BuffObj> buffs = new List<BuffObj>();
 
     private ChaProperty baseProp; // 基础属性，可成长
     private ChaProperty buffProp = ChaProperty.zero; // buff带来的属性
     private ChaProperty equipmentProp = ChaProperty.zero; // 装备属性
 
-    private ChaResource resource;
 
     public ChaState(ChaProperty baseProp) {
         this.baseProp = baseProp;
@@ -40,7 +41,7 @@ public class ChaState {
             theBuff.duration = addBuffInfo.durationSetTo ? addBuffInfo.duration : addBuffInfo.duration + theBuff.duration;
             theBuff.permanent = addBuffInfo.permanent;
             int afterStack = addBuffInfo.addStack + theBuff.stack;
-            int realAfterStack = Mathf.Clamp(afterStack, 0, addBuffInfo.buffModel.maxStack);
+            int realAfterStack = Mathf.Min(afterStack, addBuffInfo.buffModel.maxStack);
             int deltaStack = realAfterStack - theBuff.stack;
             theBuff.stack += deltaStack;
             if (theBuff.stack > 0 && deltaStack != 0) {
@@ -51,10 +52,34 @@ public class ChaState {
                 addBuffInfo.permanent, addBuffInfo.addStack, addBuffInfo.duration);
             buffs.Add(buff);
             buffs.Sort((a, b) => -a.model.priority.CompareTo(b.model.priority)); // 降序，先执行优先级高的buff
-            int modifyStack = Mathf.Clamp(addBuffInfo.addStack, 0, addBuffInfo.buffModel.maxStack);
+            int modifyStack = Mathf.Min(addBuffInfo.addStack, addBuffInfo.buffModel.maxStack);
             addBuffInfo.buffModel.onOccur?.Invoke(buff, modifyStack);
         }
         RecheckProperty();
+    }
+
+    public void TickBuff() {
+        for (int i = 0; i < buffs.Count; i++) {
+            BuffObj buff = buffs[i];
+            buff.model.onTick?.Invoke(buff);
+        }
+    }
+
+    public void RemoveBuff(Func<BuffObj, bool> filter) {
+        int index = 0;
+        int originalBuffCount = buffs.Count;
+        while (index < buffs.Count) {
+            BuffObj buff = buffs[index];
+            if (filter(buff)) {
+                buffs.RemoveAt(index);
+                buff.model.onRemoved?.Invoke(buff);
+                continue;
+            }
+            index++;
+        }
+        if (buffs.Count < originalBuffCount) {
+            RecheckProperty();
+        }
     }
 
     private BuffObj GetBuff(int buffId) {

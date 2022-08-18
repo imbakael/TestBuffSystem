@@ -10,6 +10,7 @@ public class BuffModel {
     public string[] tags; // 比如poison，标记此buff是一个中毒buff
     public int tickTime; // 如2代表每2回合执行一次
     public ChaProperty propMod; // buff附带的属性
+    public bool isDebuff; // 是否是负面buff
 
     public BuffOnOccur onOccur;
     public BuffOnTick onTick;
@@ -19,7 +20,7 @@ public class BuffModel {
     public BuffOnKill onKill;
     public BuffOnBeKilled onBeKilled;
 
-    public BuffModel(int id, string name, int priority, int maxStack, string[] tags, int tickTime, ChaProperty propMod,
+    public BuffModel(int id, string name, int priority, int maxStack, string[] tags, int tickTime, ChaProperty propMod, bool isDebuff,
         BuffOnOccur onOccur, BuffOnTick onTick, BuffOnRemoved onRemoved, BuffOnHit onHit, BuffOnBeHurt onBeHurt, BuffOnKill onKill, BuffOnBeKilled onBeKilled) {
         this.id = id;
         this.name = name;
@@ -28,6 +29,7 @@ public class BuffModel {
         this.tags = tags;
         this.tickTime = tickTime;
         this.propMod = propMod;
+        this.isDebuff = isDebuff;
         this.onOccur = onOccur;
         this.onTick = onTick;
         this.onRemoved = onRemoved;

@@ -11,7 +11,7 @@ public class AddBuffInfo {
     ///关于时间，是改变还是设置为, true代表设置为，false代表改变
     ///</summary>
     public bool durationSetTo;
-    public bool permanent;
+    public bool permanent; // 是否永久
     public int addStack;
     public int duration;
 

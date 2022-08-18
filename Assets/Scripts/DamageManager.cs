@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class DamageManager : MonoBehaviour {
 
-    private List<DamageInfo> damageInfos = new List<DamageInfo>();
+    private static List<DamageInfo> damageInfos = new List<DamageInfo>();
 
     private void Update() {
         while(damageInfos.Count > 0) {
             DealWithDamge(damageInfos[0]);
             damageInfos.RemoveAt(0);
         }
+    }
+
+    public static void AddDamageInfo(DamageInfo damageInfo) {
+        damageInfos.Add(damageInfo);
     }
 
     // 进入到此方法内部，说明此damageInfo必定没有被闪避，闪避与否在外层已判断
@@ -86,7 +90,7 @@ public class DamageManager : MonoBehaviour {
         float realDarkDefence = chaProperty.elemDefence * GetPercent(damageInfo.ignoreDarkDefencePercent);
         float dark = Mathf.Max(0, GetCritValue(damage.dark - realDarkDefence, isCrit)) * GetPercent(chaProperty.darkResist);
 
-        return Mathf.RoundToInt(physics + fire + ice + thunder + poison + light + dark + GetCritValue(damage.real, isCrit));
+        return Mathf.RoundToInt(physics + fire + ice + thunder + poison + light + dark + damage.real);
     }
 
     private static float GetPercent(int value) {

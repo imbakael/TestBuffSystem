@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BuffObj {
     public BuffModel model;
-    public ChaState caster;
-    public ChaState carrier;
+    public ChaState caster; // buff释放者
+    public ChaState carrier; // buff携带者
     public bool permanent;
     public int stack; // 层数，至少1层
     public int duration; // 持续多少回合

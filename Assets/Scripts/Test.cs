@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Test : MonoBehaviour {
@@ -7,8 +8,9 @@ public class Test : MonoBehaviour {
         ChaState b = new ChaState(new ChaProperty(20, 5, 2, 1, 0, 8, 2, 5, 25, 0, 0, 0, 0, 0, 0));
 
         // 产生一次普通攻击
-        Attack(a, b);
+        //Attack(a, b);
     }
+
 
     private void Attack(ChaState attacker, ChaState defender) {
         float dodgeRate = ChaProperty.DodgeRate(attacker.currentProp.speed, defender.currentProp.speed);
@@ -18,7 +20,8 @@ public class Test : MonoBehaviour {
         }
         float critRate = attacker.currentProp.CritRate - defender.currentProp.CritDodgeRate;
         bool isCrit = Random.Range(0f, 1f) <= critRate;
-        // 判断
-        DamageInfo damageInfo = new DamageInfo(attacker, defender, new Damage(attacker.currentProp.PhysicsAttack), null, isCrit);
+        // 普攻攻击产生的damageInfo
+        var damageInfo = new DamageInfo(attacker, defender, new Damage(attacker.currentProp.PhysicsAttack), null, isCrit);
+        DamageManager.AddDamageInfo(damageInfo);
     }
 }

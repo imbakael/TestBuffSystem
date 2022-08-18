@@ -8,17 +8,24 @@ using UnityEngine;
 /// </summary>
 public class Damage {
 
-    public int physics;
-    public int fire;
-    public int ice;
-    public int thunder;
-    public int poison;
-    public int light;
-    public int dark;
+    public float physics;
+    public float fire;
+    public float ice;
+    public float thunder;
+    public float poison;
+    public float light;
+    public float dark;
 
-    public int real; // 真实伤害，无视防御和抗性，比如扣除当前30%生命值，此伤害即为真实伤害；又如回复10hp、回复最大生命的10%生命值，也属于真实伤害
+    /// <summary>
+    /// 真实伤害，无视防御和抗性，比如扣除当前30%生命值，此伤害即为真实伤害；又如回复10hp、回复最大生命的10%生命值，也属于真实伤害
+    /// 真实伤害也参与各种加减法和乘法的计算，比如扣除当前30%生命值不受伤害减免等buff影响
+    /// 真实伤害也不受必杀影响
+    /// </summary>
+    public float real;
 
-    public Damage(int physics = 0, int fire = 0, int ice = 0, int thunder = 0, int poison = 0, int light = 0, int dark = 0, int real = 0) {
+    public Damage(float physics = 0, float fire = 0, float ice = 0, float thunder = 0, float poison = 0,
+        float light = 0, float dark = 0, float real = 0) {
+
         this.physics = physics;
         this.fire = fire;
         this.ice = ice;
@@ -27,5 +34,51 @@ public class Damage {
         this.light = light;
         this.dark = dark;
         this.real = real;
+    }
+
+    public static Damage Zero() => new Damage();
+
+    public static Damage operator *(Damage a, float b) {
+        return
+            new Damage(
+                a.physics * b,
+                a.fire * b,
+                a.ice * b,
+                a.thunder * b,
+                a.poison * b,
+                a.light * b,
+                a.dark * b,
+                a.real
+            );
+    }
+
+    // todo: 考虑计算后结果为负值
+    public static Damage operator +(Damage a, float b) {
+        return
+            new Damage(
+                a.physics + b,
+                a.fire + b,
+                a.ice + b,
+                a.thunder + b,
+                a.poison + b,
+                a.light + b,
+                a.dark + b,
+                a.real
+            );
+    }
+
+    // todo: 考虑计算后结果为负值
+    public static Damage operator -(Damage a, float b) {
+        return
+            new Damage(
+                a.physics - b,
+                a.fire - b,
+                a.ice - b,
+                a.thunder - b,
+                a.poison - b,
+                a.light - b,
+                a.dark - b,
+                a.real
+            );
     }
 }

@@ -115,14 +115,4 @@ public class ChaProperty {
     public int CritRate => skill / 2 + critRate; // 必杀率
     public int CritDodgeRate => luck; // 必杀回避率
 
-    // 速度差会产生躲避率
-    public static float DodgeRate(int attackerSpeed, int defenderSpeed) {
-        int delta = defenderSpeed - attackerSpeed;
-        if (delta < 5) {
-            return 0f;
-        }
-        float rate = delta * 1f / defenderSpeed;
-        return Mathf.Min(rate, 0.3f);
-    }
-
 }

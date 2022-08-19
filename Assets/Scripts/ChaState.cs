@@ -20,6 +20,7 @@ public class ChaState {
     public ChaState(ChaProperty baseProp) {
         this.baseProp = baseProp;
         RecheckProperty();
+        resource = new ChaResource(currentProp.hp);
     }
 
     public bool CanBeKilled(DamageInfo damageInfo) {

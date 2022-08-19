@@ -6,8 +6,16 @@ public class BuffOnBeHurtCallbacks : MonoBehaviour {
         { "女神守护", GodnessGuard },
         { "大盾", LargeShield },
         { "反弹", Reflect },
-        { "石化皮肤", StoneSkin }
+        { "石化皮肤", StoneSkin },
+        { "惧怕弓箭", AfraidBow }
     };
+
+    // 受到2倍的弓箭伤害
+    private static void AfraidBow(BuffObj buff, ref DamageInfo damageInfo) {
+        if (damageInfo.damageSource == DamageSource.Bow) {
+            damageInfo.damage.physics *= 2;
+        }
+    }
 
     // 受到的所有伤害-3
     private static void StoneSkin(BuffObj buff, ref DamageInfo damageInfo) {
@@ -18,7 +26,7 @@ public class BuffOnBeHurtCallbacks : MonoBehaviour {
     private static void Reflect(BuffObj buff, ref DamageInfo damageInfo) {
         if (!damageInfo.IsReflectDamge()) {
             var damage = damageInfo.damage * 0.3f;
-            var newDamageInfo = new DamageInfo(damageInfo.defender, damageInfo.attacker, damage, new DamageInfoTag[] { DamageInfoTag.reflectDamage }, false);
+            var newDamageInfo = new DamageInfo(damageInfo.defender, damageInfo.attacker, damage, new DamageInfoTag[] { DamageInfoTag.Reflect }, false);
             DamageManager.DealWithDamge(newDamageInfo);
         }
     }

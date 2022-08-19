@@ -15,8 +15,8 @@ public class BuffOnTickCallbacks : MonoBehaviour {
     }
 
     private static void Poison(BuffObj buff) {
-        var damage = new Damage(0, 0, 0, 0, 3);
-        var damageInfo = new DamageInfo(null, buff.carrier, damage, new DamageInfoTag[] { DamageInfoTag.periodDamage }, false) {
+        var damage = new Damage(poison:3);
+        var damageInfo = new DamageInfo(null, buff.carrier, damage, new DamageInfoTag[] { DamageInfoTag.Direct }, false) {
             ignorePoisonDefencePercent = 100 // ∂æ…À∫¶Œﬁ ”‘™Àÿ∑¿”˘
         };
         DamageManager.AddDamageInfo(damageInfo);

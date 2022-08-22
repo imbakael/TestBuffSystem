@@ -8,17 +8,17 @@ public class ChaState {
 
     public bool IsDead => resource.hp <= 0;
 
-    public ChaProperty currentProp = ChaProperty.zero;
+    public ChaProperty currentProp;
     public ChaResource resource;
-    public List<BuffObj> buffs = new List<BuffObj>();
+    public List<BuffObj> buffs;
+    private List<EquipmentObj> equipments;
 
     private ChaProperty baseProp; // 基础属性，可成长
-    private ChaProperty buffProp = ChaProperty.zero; // buff带来的属性
-    private ChaProperty equipmentProp = ChaProperty.zero; // 装备属性
-
 
     public ChaState(ChaProperty baseProp) {
         this.baseProp = baseProp;
+        buffs = new List<BuffObj>();
+        equipments = new List<EquipmentObj>();
         RecheckProperty();
         resource = new ChaResource(currentProp.hp);
     }
@@ -89,10 +89,15 @@ public class ChaState {
 
     private void RecheckProperty() {
         currentProp.Zero();
-        buffProp.Zero();
+        ChaProperty buffProp = ChaProperty.NewZero();
         for (int i = 0; i < buffs.Count; i++) {
             BuffObj buff = buffs[i];
-            buffProp += buff.model.propMod * buff.stack;
+            buffProp += buff.model.prop * buff.stack;
+        }
+        ChaProperty equipmentProp = ChaProperty.NewZero();
+        for (int i = 0; i < equipments.Count; i++) {
+            EquipmentObj eo = equipments[i];
+            equipmentProp += eo.model.prop;
         }
         currentProp = baseProp + buffProp + equipmentProp;
     }

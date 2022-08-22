@@ -87,7 +87,7 @@ public class ChaProperty {
             );
     }
 
-    public static ChaProperty zero = new ChaProperty(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    public static ChaProperty NewZero() => new ChaProperty(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
     public void Zero() {
         hp = 0;

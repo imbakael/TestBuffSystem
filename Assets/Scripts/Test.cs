@@ -34,4 +34,6 @@ public class Test : MonoBehaviour {
         var damageInfo = new DamageInfo(attacker, defender, new Damage(physics: attacker.currentProp.PhysicsAttack), new DamageInfoTag[] { DamageInfoTag.Direct }, isCrit);
         DamageManager.AddDamageInfo(damageInfo);
     }
+
 }
+

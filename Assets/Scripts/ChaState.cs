@@ -11,7 +11,7 @@ public class ChaState {
     public ChaProperty currentProp;
     public ChaResource resource;
     public List<BuffObj> buffs;
-    private List<EquipmentObj> equipments;
+    public List<EquipmentObj> equipments;
 
     private ChaProperty baseProp; // 基础属性，可成长
 
@@ -52,7 +52,7 @@ public class ChaState {
             var buff = new BuffObj(addBuffInfo.buffModel, addBuffInfo.caster, addBuffInfo.caster, 
                 addBuffInfo.permanent, addBuffInfo.addStack, addBuffInfo.duration);
             buffs.Add(buff);
-            buffs.Sort((a, b) => -a.model.priority.CompareTo(b.model.priority)); // 降序，先执行优先级高的buff
+            buffs.Sort((a, b) => -a.model.priority.CompareTo(b.model.priority));
             int modifyStack = Mathf.Min(addBuffInfo.addStack, addBuffInfo.buffModel.maxStack);
             addBuffInfo.buffModel.onOccur?.Invoke(buff, modifyStack);
         }

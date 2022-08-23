@@ -43,8 +43,8 @@ public class BuffModel {
 public delegate void BuffOnOccur(BuffObj buff, int modifyStack); // 添加buff或buff层数变化时触发
 public delegate void BuffOnRemoved(BuffObj buff); // 移除buff时触发
 public delegate void BuffOnTick(BuffObj buff); // 有持续时间的buff会触发，比如中毒扣血
-public delegate void BuffOnHit(BuffObj buff, ref DamageInfo damageInfo); // 攻击者造成伤害时触发，比如持剑时物理伤害+30%
-public delegate void BuffOnBeHurt(BuffObj buff, ref DamageInfo damageInfo); // 受击者受伤害时触发，比如降低50%弓箭伤害
+public delegate void BuffOnHit(BuffObj buff, DamageInfo damageInfo); // 攻击者造成伤害时触发，比如持剑时物理伤害+30%
+public delegate void BuffOnBeHurt(BuffObj buff, DamageInfo damageInfo); // 受击者受伤害时触发，比如降低50%弓箭伤害
 public delegate void BuffOnKill(BuffObj buff, DamageInfo damageInfo); // 击杀单位时触发，如影魔收集灵魂
 public delegate void BuffOnBeKilled(BuffObj buff, DamageInfo damageInfo); // 被击杀时触发，如死亡后爆炸
 

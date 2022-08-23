@@ -29,12 +29,12 @@ public class DamageManager : MonoBehaviour {
         if (attacker != null) {
             for (int i = 0; i < attacker.buffs.Count; i++) {
                 BuffObj buff = attacker.buffs[i];
-                buff.model.onHit?.Invoke(buff, ref damageInfo);
+                buff.model.onHit?.Invoke(buff, damageInfo);
             }
         }
         for (int i = 0; i < defender.buffs.Count; i++) {
             BuffObj buff = defender.buffs[i];
-            buff.model.onBeHurt?.Invoke(buff, ref damageInfo);
+            buff.model.onBeHurt?.Invoke(buff, damageInfo);
         }
         if (defender.CanBeKilled(damageInfo)) {
             if (attacker != null) {

@@ -68,17 +68,18 @@ public class ChaState {
 
     public void RemoveBuff(Func<BuffObj, bool> filter) {
         int index = 0;
-        int originalBuffCount = buffs.Count;
+        bool isBuffRemoved = false;
         while (index < buffs.Count) {
             BuffObj buff = buffs[index];
             if (filter(buff)) {
                 buffs.RemoveAt(index);
                 buff.model.onRemoved?.Invoke(buff);
+                isBuffRemoved = true;
                 continue;
             }
             index++;
         }
-        if (buffs.Count < originalBuffCount) {
+        if (isBuffRemoved) {
             RecheckProperty();
         }
     }

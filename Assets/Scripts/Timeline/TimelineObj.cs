@@ -9,6 +9,6 @@ public class TimelineObj {
     public TimelineObj(TimelineModel model, ChaState caster) {
         this.model = model;
         this.caster = caster;
-        this.timeScale = 1f;
+        timeScale = 1f;
     }
 }

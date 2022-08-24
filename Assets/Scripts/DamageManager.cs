@@ -17,7 +17,6 @@ public class DamageManager : MonoBehaviour {
         damageInfos.Add(damageInfo);
     }
 
-    // 进入到此方法内部，说明此damageInfo必定没有被闪避，闪避与否在外层已判断
     public static void DealWithDamge(DamageInfo damageInfo) {
         ChaState attacker = damageInfo.attacker;
         ChaState defender = damageInfo.defender;

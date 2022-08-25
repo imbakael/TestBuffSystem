@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AddBuffInfo {
 
-    public BuffModel buffModel;
+    public BuffModel model;
     public ChaState caster;
     public ChaState target;
     ///<summary>
@@ -15,8 +15,8 @@ public class AddBuffInfo {
     public int addStack;
     public int duration;
 
-    public AddBuffInfo(BuffModel buffModel, ChaState caster, ChaState target, bool durationSetTo, bool permanent, int addStack, int duration) {
-        this.buffModel = buffModel;
+    public AddBuffInfo(BuffModel model, ChaState caster, ChaState target, bool durationSetTo, bool permanent, int addStack, int duration) {
+        this.model = model;
         this.caster = caster;
         this.target = target;
         this.durationSetTo = durationSetTo;

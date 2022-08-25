@@ -12,6 +12,8 @@ public class ChaState {
     public ChaResource resource;
     public List<BuffObj> buffs;
     public List<EquipmentObj> equipments;
+    public List<EquipmentObj> notEquipments;
+    public List<ItemObj> items;
 
     private ChaProperty baseProp; // 基础属性，可成长
 
@@ -19,8 +21,39 @@ public class ChaState {
         this.baseProp = baseProp;
         buffs = new List<BuffObj>();
         equipments = new List<EquipmentObj>();
+        notEquipments = new List<EquipmentObj>();
+        // 装备上指定位置的装备
+        //Equip(1);
         RecheckProperty();
         resource = new ChaResource(currentProp.hp);
+    }
+
+    public void Equip(EquipmentObj eo) {
+        EquipmentObj beforeEo = equipments.Where(t => t.model.slot == eo.model.slot).FirstOrDefault();
+        if (beforeEo != null) {
+            DisarmEquipment(beforeEo);
+        }
+        equipments.Add(eo);
+        notEquipments.Remove(eo);
+        if (eo.model.addBuffInfos != null) {
+            for (int i = 0; i < eo.model.addBuffInfos.Length; i++) {
+                AddBuff(eo.model.addBuffInfos[i]);
+            }
+        }
+        RecheckProperty();
+    }
+
+    public void DisarmEquipment(EquipmentObj eo) {
+        equipments.Remove(eo);
+        notEquipments.Add(eo);
+        if (eo.model.addBuffInfos != null) {
+            RemoveBuff((t) => IsContainBuffId(eo.model.addBuffInfos, t.model.id));
+        }
+        RecheckProperty();
+    }
+
+    private bool IsContainBuffId(AddBuffInfo[] infos, int targetId) {
+        return infos.Any(t => t.model.id == targetId);
     }
 
     public bool CanBeKilled(DamageInfo damageInfo) {
@@ -36,25 +69,25 @@ public class ChaState {
         }
     }
 
-    public void AddBuff(AddBuffInfo addBuffInfo) {
-        BuffObj theBuff = GetBuff(addBuffInfo.buffModel.id);
+    public void AddBuff(AddBuffInfo buffInfo) {
+        BuffObj theBuff = GetBuff(buffInfo.model.id);
         if (theBuff != null) {
-            theBuff.duration = addBuffInfo.durationSetTo ? addBuffInfo.duration : addBuffInfo.duration + theBuff.duration;
-            theBuff.permanent = addBuffInfo.permanent;
-            int afterStack = addBuffInfo.addStack + theBuff.stack;
-            int realAfterStack = Mathf.Min(afterStack, addBuffInfo.buffModel.maxStack);
+            theBuff.duration = buffInfo.durationSetTo ? buffInfo.duration : buffInfo.duration + theBuff.duration;
+            theBuff.permanent = buffInfo.permanent;
+            int afterStack = buffInfo.addStack + theBuff.stack;
+            int realAfterStack = Mathf.Min(afterStack, buffInfo.model.maxStack);
             int deltaStack = realAfterStack - theBuff.stack;
             theBuff.stack += deltaStack;
             if (theBuff.stack > 0 && deltaStack != 0) {
-                addBuffInfo.buffModel.onOccur?.Invoke(theBuff, deltaStack);
+                buffInfo.model.onOccur?.Invoke(theBuff, deltaStack);
             }
         } else {
-            var buff = new BuffObj(addBuffInfo.buffModel, addBuffInfo.caster, addBuffInfo.caster, 
-                addBuffInfo.permanent, addBuffInfo.addStack, addBuffInfo.duration);
+            var buff = new BuffObj(buffInfo.model, buffInfo.caster, buffInfo.caster, 
+                buffInfo.permanent, buffInfo.addStack, buffInfo.duration);
             buffs.Add(buff);
             buffs.Sort((a, b) => -a.model.priority.CompareTo(b.model.priority));
-            int modifyStack = Mathf.Min(addBuffInfo.addStack, addBuffInfo.buffModel.maxStack);
-            addBuffInfo.buffModel.onOccur?.Invoke(buff, modifyStack);
+            int modifyStack = Mathf.Min(buffInfo.addStack, buffInfo.model.maxStack);
+            buffInfo.model.onOccur?.Invoke(buff, modifyStack);
         }
         RecheckProperty();
     }
@@ -88,8 +121,8 @@ public class ChaState {
         return buffs.Where(t => t.model.id == buffId).FirstOrDefault();
     }
 
+    // buff变化或者装备变化都会影响自身的属性
     private void RecheckProperty() {
-        currentProp.Zero();
         ChaProperty buffProp = ChaProperty.NewZero();
         for (int i = 0; i < buffs.Count; i++) {
             BuffObj buff = buffs[i];
@@ -100,6 +133,7 @@ public class ChaState {
             EquipmentObj eo = equipments[i];
             equipmentProp += eo.model.prop;
         }
+        currentProp.Zero();
         currentProp = baseProp + buffProp + equipmentProp;
     }
 }

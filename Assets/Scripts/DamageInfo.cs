@@ -12,6 +12,7 @@ public class DamageInfo {
     public bool isCrit = false;
     public DamageInfoTag[] tags; // 伤害类型，如直接伤害、反弹伤害、治疗
     public DamageSource damageSource; // 伤害来源，如剑、矛、斧、弓箭
+    public bool isCommonAttack; // 是否为普攻
 
     // 某些伤害会无视目标百分比的防御，比如攻击附加5点雷属性伤害，此伤害无视元素防御，所以此damageInfo的 ignoreThunderDefencePercent == 100
     public int ignoreDefencePercent = 0;
@@ -24,13 +25,15 @@ public class DamageInfo {
 
     public List<AddBuffInfo> addBuffs = new List<AddBuffInfo>(); // 伤害后给角色添加的buff
 
-    public DamageInfo(ChaState attacker, ChaState defender, Damage damage, DamageInfoTag[] tags, bool isCrit, DamageSource damageSource = DamageSource.None) {
+    public DamageInfo(ChaState attacker, ChaState defender, Damage damage, DamageInfoTag[] tags, bool isCrit, DamageSource damageSource = DamageSource.None,
+        bool isCommonAttack = false) {
         this.attacker = attacker;
         this.defender = defender;
         this.damage = damage;
         this.tags = tags;
         this.isCrit = isCrit;
         this.damageSource = damageSource;
+        this.isCommonAttack = isCommonAttack;
     }
 
     public bool IsReflectDamge() => tags.Any(t => t == DamageInfoTag.Reflect);

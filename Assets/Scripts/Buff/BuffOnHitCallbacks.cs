@@ -7,8 +7,24 @@ public class BuffOnHitCallbacks : MonoBehaviour {
         { "月光", MoonLight },
         { "掏心", PulloutHeart },
         { "枪术大师", SpearMaster },
-        { "静电场", StaticElectricField }
+        { "静电场", StaticElectricField },
+        { "黑暗力量", DarkPower },
+        { "穿透火焰", PentrationFire }
     };
+
+    private static void PentrationFire(BuffObj buff, DamageInfo damageInfo) {
+        // 查找目标身后有无敌人
+        ChaState target = null;
+        var damage = Damage.Copy(damageInfo.damage);
+        var newDamageInfo = new DamageInfo(damageInfo.attacker, target, damage, null, false, DamageSource.None, true);
+        DamageManager.DealWithDamge(newDamageInfo);
+    }
+
+    private static void DarkPower(BuffObj buff, DamageInfo damageInfo) {
+        if (damageInfo.isCommonAttack && damageInfo.attacker.currentProp.darkResist > damageInfo.defender.currentProp.darkResist) {
+            damageInfo.isCrit = true;
+        }
+    }
 
     // 攻击附带受击者当前生命值15%的雷伤害，此伤害无视元素防御
     private static void StaticElectricField(BuffObj buff, DamageInfo damageInfo) {

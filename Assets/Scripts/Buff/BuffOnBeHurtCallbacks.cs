@@ -7,8 +7,17 @@ public class BuffOnBeHurtCallbacks : MonoBehaviour {
         { "大盾", LargeShield },
         { "反弹", Reflect },
         { "石化皮肤", StoneSkin },
-        { "惧怕弓箭", AfraidBow }
+        { "惧怕弓箭", AfraidBow },
+        { "暗反射",  DarkReflect }
     };
+
+    private static void DarkReflect(BuffObj buff, DamageInfo damageInfo) {
+        if (!damageInfo.IsReflectDamge() && damageInfo.defender.currentProp.physicsResist > damageInfo.attacker.currentProp.physicsResist) {
+            var damage = new Damage(dark: damageInfo.damage.GetValue() * 0.3f);
+            var newDamageInfo = new DamageInfo(damageInfo.defender, damageInfo.attacker, damage, new DamageInfoTag[] { DamageInfoTag.Reflect }, false);
+            DamageManager.DealWithDamge(newDamageInfo);
+        }
+    }
 
     // 受到2倍的弓箭伤害
     private static void AfraidBow(BuffObj buff, DamageInfo damageInfo) {
@@ -22,10 +31,10 @@ public class BuffOnBeHurtCallbacks : MonoBehaviour {
         damageInfo.damage -= 3f;
     }
 
-    // 受到非反弹的伤害时，反弹30%伤害
+    // 受到非反弹的伤害时，反弹20%伤害（生命移除）
     private static void Reflect(BuffObj buff, DamageInfo damageInfo) {
         if (!damageInfo.IsReflectDamge()) {
-            var damage = damageInfo.damage * 0.3f;
+            var damage = new Damage(real: damageInfo.damage.GetValue() * 0.2f);
             var newDamageInfo = new DamageInfo(damageInfo.defender, damageInfo.attacker, damage, new DamageInfoTag[] { DamageInfoTag.Reflect }, false);
             DamageManager.DealWithDamge(newDamageInfo);
         }
@@ -35,7 +44,7 @@ public class BuffOnBeHurtCallbacks : MonoBehaviour {
     private static void LargeShield(BuffObj buff, DamageInfo damageInfo) {
         bool isTrigger = Random.Range(0, 1f) <= buff.carrier.currentProp.defence / 100f;
         if (isTrigger) {
-            damageInfo.damage = Damage.Zero();
+            damageInfo.damage = new Damage();
         }
     }
 

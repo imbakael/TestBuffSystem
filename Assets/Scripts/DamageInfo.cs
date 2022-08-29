@@ -25,7 +25,7 @@ public class DamageInfo {
 
     public List<AddBuffInfo> addBuffs = new List<AddBuffInfo>(); // 伤害后给角色添加的buff
 
-    public DamageInfo(ChaState attacker, ChaState defender, Damage damage, DamageInfoTag[] tags, bool isCrit, DamageSource damageSource = DamageSource.None,
+    public DamageInfo(ChaState attacker, ChaState defender, Damage damage, DamageInfoTag[] tags, bool isCrit = false, DamageSource damageSource = DamageSource.None,
         bool isCommonAttack = false) {
         this.attacker = attacker;
         this.defender = defender;

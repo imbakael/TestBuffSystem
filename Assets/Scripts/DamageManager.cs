@@ -61,7 +61,7 @@ public class DamageManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// 获得指定属性下damageInfo造成的伤害值
+    /// 通过damageInfo和角色属性计算伤害，属于最终伤害n，如果有些特殊buff会降低50%最终伤害，则应该n * 0.5f
     /// </summary>
     /// <param name="damageInfo">伤害info</param>
     /// <param name="target">角色属性</param>

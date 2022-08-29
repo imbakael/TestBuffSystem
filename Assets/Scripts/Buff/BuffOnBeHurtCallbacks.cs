@@ -12,7 +12,7 @@ public class BuffOnBeHurtCallbacks : MonoBehaviour {
     };
 
     private static void DarkReflect(BuffObj buff, DamageInfo damageInfo) {
-        if (!damageInfo.IsReflectDamge() && damageInfo.defender.currentProp.physicsResist > damageInfo.attacker.currentProp.physicsResist) {
+        if (!damageInfo.IsReflectDamge() && damageInfo.defender.currentProp.physicsResist / 2f > damageInfo.attacker.currentProp.physicsResist) {
             var damage = new Damage(dark: damageInfo.damage.GetValue() * 0.3f);
             var newDamageInfo = new DamageInfo(damageInfo.defender, damageInfo.attacker, damage, new DamageInfoTag[] { DamageInfoTag.Reflect }, false);
             DamageManager.DealWithDamge(newDamageInfo);

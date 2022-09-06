@@ -8,13 +8,13 @@ public class ChaState {
 
     public bool IsDead => resource.hp <= 0;
 
-    public ChaProperty currentProp;
+    public ChaProperty currentProp; // 由基础属性+装备属性+buff属性组成
     public ChaResource resource;
     public List<BuffObj> buffs;
-    public List<EquipmentObj> equipments;
-    public List<EquipmentObj> notEquipments;
-    public List<ItemObj> items;
 
+    private List<EquipmentObj> equipments;
+    private List<EquipmentObj> notEquipments;
+    private List<ItemObj> items;
     private ChaProperty baseProp; // 基础属性，可成长
 
     public ChaState(ChaProperty baseProp) {
@@ -22,8 +22,7 @@ public class ChaState {
         buffs = new List<BuffObj>();
         equipments = new List<EquipmentObj>();
         notEquipments = new List<EquipmentObj>();
-        // 装备上指定位置的装备
-        //Equip(1);
+        items = new List<ItemObj>();
         RecheckProperty();
         resource = new ChaResource(currentProp.hp);
     }

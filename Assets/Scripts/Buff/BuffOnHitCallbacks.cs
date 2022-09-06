@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffOnHitCallbacks : MonoBehaviour {
+public class BuffOnHitCallbacks {
     public static readonly Dictionary<string, BuffOnHit> OnHit = new Dictionary<string, BuffOnHit> {
         { "火焰掌控", FireMaster },
         { "月光", MoonLight },
@@ -9,8 +9,25 @@ public class BuffOnHitCallbacks : MonoBehaviour {
         { "枪术大师", SpearMaster },
         { "静电场", StaticElectricField },
         { "黑暗力量", DarkPower },
-        { "穿透火焰", PentrationFire }
+        { "穿透火焰", PentrationFire },
+        { "狙击", Snipe },
+        { "混沌一击", ChaosAttack }
     };
+
+    // 增加-7~15点伤害（根据伤害类型）
+    private static void ChaosAttack(BuffObj buff, DamageInfo damageInfo) {
+        int delta = Random.Range(-7, 16);
+        damageInfo.damage.physics += delta;
+        damageInfo.damage.physics = Mathf.Max(0, damageInfo.damage.physics);
+    }
+
+    // 触发狙击时伤害翻倍
+    private static void Snipe(BuffObj buff, DamageInfo damageInfo) {
+        bool isTrigger = Random.Range(0f, 1f) <= 0.2f;
+        if (isTrigger && damageInfo.damageSource == DamageSource.Bow) {
+            damageInfo.damage.physics *= 2f;
+        }
+    }
 
     private static void PentrationFire(BuffObj buff, DamageInfo damageInfo) {
         // 查找目标身后有无敌人

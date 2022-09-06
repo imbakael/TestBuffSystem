@@ -1,6 +1,14 @@
 
 public class ChaProperty {
 
+    // 战斗时的相关属性
+    public int PhysicsAttack => strength + attack; // 物理攻击力
+    public int PhysicsDefence => defence; // 物理防御力
+    public int ElemAttack => elemStrength + attack; // 元素攻击力
+    public int ElemDefence => elemDefence; // 元素防御力
+    public int CritRate => skill / 2 + critRate; // 必杀率
+    public int CritDodgeRate => luck; // 必杀回避率
+
     public int hp; // 最大hp
     public int strength;
     public int defence;
@@ -104,13 +112,4 @@ public class ChaProperty {
         lightResist = 0;
         darkResist = 0;
     }
-
-    // 战斗时的相关属性
-    public int PhysicsAttack => strength + attack; // 物理攻击力
-    public int PhysicsDefence => defence; // 物理防御力
-    public int ElemAttack => elemStrength + attack; // 元素攻击力
-    public int ElemDefence => elemDefence; // 元素防御力
-    public int CritRate => skill / 2 + critRate; // 必杀率
-    public int CritDodgeRate => luck; // 必杀回避率
-
 }

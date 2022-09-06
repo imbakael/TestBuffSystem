@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffOnBeKilledCallbacks : MonoBehaviour {
+public class BuffOnBeKilledCallbacks {
     public static readonly Dictionary<string, BuffOnBeKilled> OnBeKilled = new Dictionary<string, BuffOnBeKilled> {
         { "×Ô±¬", SelfDestruct }
     };

@@ -8,8 +8,8 @@ public class EquipmentModel {
     public string name;
     public EquipmentSlot slot;
     public ChaProperty prop;
-    public SkillModel[] skills;
-    public AddBuffInfo[] addBuffInfos;
+    public SkillModel[] skills; // 装备附加技能
+    public AddBuffInfo[] addBuffInfos; // 装备附加天赋
 
     public EquipmentModel(int id, string name, EquipmentSlot slot, ChaProperty prop, SkillModel[] skills, AddBuffInfo[] addBuffInfos) {
         this.id = id;

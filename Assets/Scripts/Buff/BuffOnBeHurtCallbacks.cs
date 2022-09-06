@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffOnBeHurtCallbacks : MonoBehaviour {
+public class BuffOnBeHurtCallbacks {
     public static readonly Dictionary<string, BuffOnBeHurt> OnBeHurt = new Dictionary<string, BuffOnBeHurt> {
         { "女神守护", GodnessGuard },
         { "大盾", LargeShield },

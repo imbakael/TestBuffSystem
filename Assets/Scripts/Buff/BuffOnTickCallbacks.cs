@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffOnTickCallbacks : MonoBehaviour {
+public class BuffOnTickCallbacks {
     public static readonly Dictionary<string, BuffOnTick> OnTick = new Dictionary<string, BuffOnTick> {
         { "ÖÐ¶¾", Poison },
         { "¾»³ý", Cleanse },

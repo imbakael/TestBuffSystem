@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    //public enum Camp {
-    //    None,
-    //    Player,
-    //    Ally,
-    //    Enemy,
-    //    Neutrality
-    //}
+    public enum Camp {
+        Player,
+        Ally,
+        Enemy,
+        Neutrality
+    }
 
     private List<ChaState> players = new List<ChaState>();
     private List<ChaState> allies = new List<ChaState>();
@@ -31,21 +30,17 @@ public class GameManager : MonoBehaviour {
     }
 
     private IEnumerator ActionCamp(List<ChaState> target) {
-        // 1.回合开始时要做的事：执行回合开始时触发的效果，如中毒的扣血
+        // 1.回合开始时要做的事：执行回合开始时触发的效果，如中毒的扣血、回血类天赋
         for (int i = 0; i < target.Count; i++) {
             ChaState cs = target[i];
+            yield return SwitchCameraTo(cs);
             cs.TickBuff();
             yield return new WaitForSeconds(0.5f);
         }
 
         // 2.回合中，玩家则等待玩家行动结束，AI则依次行动
-        int actionCount = 0;
         for (int i = 0; i < target.Count; i++) {
-            if (target[i] != null) {
-                // 当前此角色正在行动
-            } else {
-                actionCount++;
-            }
+            
             yield return new WaitForSeconds(0.5f);
         }
 
@@ -61,6 +56,10 @@ public class GameManager : MonoBehaviour {
             });
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    private IEnumerator SwitchCameraTo(ChaState target) {
+        yield return new WaitForSeconds(0.5f);
     }
 
 }

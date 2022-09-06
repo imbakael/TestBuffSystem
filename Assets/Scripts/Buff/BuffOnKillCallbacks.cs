@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffOnKillCallbacks : MonoBehaviour {
+public class BuffOnKillCallbacks {
     public static readonly Dictionary<string, BuffOnKill> Onkill = new Dictionary<string, BuffOnKill> {
         { "收集灵魂", CollectSouls },
         { "天赋偷取", TalentSteal }

@@ -11,12 +11,26 @@ public class BuffOnHitCallbacks {
         { "黑暗力量", DarkPower },
         { "穿透火焰", PentrationFire },
         { "狙击", Snipe },
-        { "混沌一击", ChaosAttack }
+        { "混沌一击", ChaosAttack },
+        { "附火", FireAttack }
     };
 
-    // 增加-7~15点伤害（根据伤害类型）
+    // 普通攻击中附加物理伤害30%的火属性伤害
+    private static void FireAttack(BuffObj buff, DamageInfo damageInfo) {
+        if (!damageInfo.isCommonAttack) {
+            return;
+        }
+        float physics = damageInfo.damage.physics;
+        float fire = physics * 0.3f;
+        damageInfo.damage.fire += fire;
+    }
+
+    // 增加普通攻击-5~15点物理伤害
     private static void ChaosAttack(BuffObj buff, DamageInfo damageInfo) {
-        int delta = Random.Range(-7, 16);
+        if (!damageInfo.isCommonAttack) {
+            return;
+        }
+        int delta = Random.Range(-5, 16);
         damageInfo.damage.physics += delta;
         damageInfo.damage.physics = Mathf.Max(0, damageInfo.damage.physics);
     }
@@ -49,7 +63,7 @@ public class BuffOnHitCallbacks {
         // 因为如果原伤害是雷属性伤害，但是要计算元素防御，而且计算必杀；而此附加雷伤害无视元素防御且没有必杀，所以两个伤害必须分开计算
         var damage = new Damage(thunder: damageInfo.defender.resource.hp * 0.15f);
         var newDamgeInfo = new DamageInfo(damageInfo.attacker, damageInfo.defender, damage, new DamageInfoTag[] { DamageInfoTag.Direct }, false) {
-            ignoreThunderDefencePercent = 100
+            ignoreElemDefencePercent = 100
         };
         DamageManager.DealWithDamge(newDamgeInfo);
     }
@@ -67,7 +81,7 @@ public class BuffOnHitCallbacks {
         if (isTrigger) {
             int currentHp = damageInfo.defender.resource.hp;
             var damage = new Damage(real: currentHp / 3f);
-            var newDamgeInfo = new DamageInfo(damageInfo.attacker, damageInfo.defender, damage, new DamageInfoTag[] { DamageInfoTag.Direct }, false, DamageSource.None);
+            var newDamgeInfo = new DamageInfo(damageInfo.attacker, damageInfo.defender, damage, new DamageInfoTag[] { DamageInfoTag.Direct }, false);
             DamageManager.DealWithDamge(newDamgeInfo);
         }
     }

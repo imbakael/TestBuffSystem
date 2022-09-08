@@ -70,26 +70,14 @@ public class DamageManager : MonoBehaviour {
         Damage damage = damageInfo.damage;
         bool isCrit = damageInfo.isCrit;
         float realDefence = target.defence * GetPercent(damageInfo.ignoreDefencePercent);
+        float realElemDefence = target.elemDefence * GetPercent(damageInfo.ignoreElemDefencePercent);
         float physics = Mathf.Max(0, DesignFormula.GetCritValue(damage.physics - realDefence, isCrit)) * GetPercent(target.physicsResist);
-
-        float realFireDefence = target.elemDefence * GetPercent(damageInfo.ignoreFireDefencePercent);
-        float fire = Mathf.Max(0, DesignFormula.GetCritValue(damage.fire - realFireDefence, isCrit)) * GetPercent(target.fireResist);
-
-        float realIceDefence = target.elemDefence * GetPercent(damageInfo.ignoreIceDefencePercent);
-        float ice =  Mathf.Max(0, DesignFormula.GetCritValue(damage.ice - realIceDefence, isCrit)) * GetPercent(target.iceResist);
-
-        float realThunderDefence = target.elemDefence * GetPercent(damageInfo.ignoreThunderDefencePercent);
-        float thunder = Mathf.Max(0, DesignFormula.GetCritValue(damage.thunder - realThunderDefence, isCrit)) * GetPercent(target.thunderResist);
-
-        float realPoisonDefence = target.elemDefence * GetPercent(damageInfo.ignorePoisonDefencePercent);
-        float poison = Mathf.Max(0, DesignFormula.GetCritValue(damage.poison - realPoisonDefence, isCrit)) * GetPercent(target.poisonResist);
-
-        float realLightDefence = target.elemDefence * GetPercent(damageInfo.ignoreLightDefencePercent);
-        float light = Mathf.Max(0, DesignFormula.GetCritValue(damage.light - realLightDefence, isCrit)) * GetPercent(target.lightResist);
-
-        float realDarkDefence = target.elemDefence * GetPercent(damageInfo.ignoreDarkDefencePercent);
-        float dark = Mathf.Max(0, DesignFormula.GetCritValue(damage.dark - realDarkDefence, isCrit)) * GetPercent(target.darkResist);
-
+        float fire = Mathf.Max(0, DesignFormula.GetCritValue(damage.fire - realElemDefence, isCrit)) * GetPercent(target.fireResist);
+        float ice =  Mathf.Max(0, DesignFormula.GetCritValue(damage.ice - realElemDefence, isCrit)) * GetPercent(target.iceResist);
+        float thunder = Mathf.Max(0, DesignFormula.GetCritValue(damage.thunder - realElemDefence, isCrit)) * GetPercent(target.thunderResist);
+        float poison = Mathf.Max(0, DesignFormula.GetCritValue(damage.poison - realElemDefence, isCrit)) * GetPercent(target.poisonResist);
+        float light = Mathf.Max(0, DesignFormula.GetCritValue(damage.light - realElemDefence, isCrit)) * GetPercent(target.lightResist);
+        float dark = Mathf.Max(0, DesignFormula.GetCritValue(damage.dark - realElemDefence, isCrit)) * GetPercent(target.darkResist);
         return Mathf.RoundToInt(physics + fire + ice + thunder + poison + light + dark + damage.real);
     }
 

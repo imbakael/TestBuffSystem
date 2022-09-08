@@ -12,10 +12,10 @@ public class ChaState {
     public ChaResource resource;
     public List<BuffObj> buffs;
 
+    private ChaProperty baseProp; // 基础属性，可成长
     private List<EquipmentObj> equipments;
     private List<EquipmentObj> notEquipments;
     private List<ItemObj> items;
-    private ChaProperty baseProp; // 基础属性，可成长
 
     public ChaState(ChaProperty baseProp) {
         this.baseProp = baseProp;
@@ -23,6 +23,7 @@ public class ChaState {
         equipments = new List<EquipmentObj>();
         notEquipments = new List<EquipmentObj>();
         items = new List<ItemObj>();
+        currentProp = ChaProperty.NewZero();
         RecheckProperty();
         resource = new ChaResource(currentProp.hp);
     }

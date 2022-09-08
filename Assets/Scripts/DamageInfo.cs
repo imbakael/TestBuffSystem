@@ -14,14 +14,9 @@ public class DamageInfo {
     public DamageSource damageSource; // 伤害来源，如剑、矛、斧、弓箭
     public bool isCommonAttack; // 是否为普攻
 
-    // 某些伤害会无视目标百分比的防御，比如攻击附加5点雷属性伤害，此伤害无视元素防御，所以此damageInfo的 ignoreThunderDefencePercent == 100
+    // 某些伤害会无视目标百分比的物理防御/元素防御，比如攻击附加5点雷属性伤害，此伤害无视元素防御，所以此damageInfo的 ignoreElemDefencePercent == 100
     public int ignoreDefencePercent = 0;
-    public int ignoreFireDefencePercent = 0;
-    public int ignoreIceDefencePercent = 0;
-    public int ignoreThunderDefencePercent = 0;
-    public int ignorePoisonDefencePercent = 0;
-    public int ignoreLightDefencePercent = 0;
-    public int ignoreDarkDefencePercent = 0;
+    public int ignoreElemDefencePercent = 0;
 
     public List<AddBuffInfo> addBuffs = new List<AddBuffInfo>(); // 伤害后给角色添加的buff
 

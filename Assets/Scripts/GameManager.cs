@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour {
 
         // 2.回合中，玩家则等待玩家行动结束，AI则依次行动
         for (int i = 0; i < target.Count; i++) {
-            
             yield return new WaitForSeconds(0.5f);
         }
 

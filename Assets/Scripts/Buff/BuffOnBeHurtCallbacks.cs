@@ -15,6 +15,7 @@ public class BuffOnBeHurtCallbacks {
         if (!damageInfo.IsReflectDamge() && damageInfo.defender.currentProp.physicsResist / 2f > damageInfo.attacker.currentProp.physicsResist) {
             var damage = new Damage(dark: damageInfo.damage.GetValue() * 0.3f);
             var newDamageInfo = new DamageInfo(damageInfo.defender, damageInfo.attacker, damage, new DamageInfoTag[] { DamageInfoTag.Reflect }, false);
+            newDamageInfo.ignoreElemDefencePercent = 100;
             DamageManager.DealWithDamge(newDamageInfo);
         }
     }

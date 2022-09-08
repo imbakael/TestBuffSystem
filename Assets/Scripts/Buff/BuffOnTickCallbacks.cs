@@ -37,7 +37,7 @@ public class BuffOnTickCallbacks {
     private static void Poison(BuffObj buff) {
         var damage = new Damage(poison:3);
         var damageInfo = new DamageInfo(null, buff.carrier, damage, new DamageInfoTag[] { DamageInfoTag.Direct }, false) {
-            ignorePoisonDefencePercent = 100 // 毒伤害无视元素防御
+            ignoreElemDefencePercent = 100 // 毒伤害无视元素防御
         };
         DamageManager.AddDamageInfo(damageInfo);
     }

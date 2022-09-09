@@ -17,7 +17,7 @@ public class DamageManager : MonoBehaviour {
         damageInfos.Add(damageInfo);
     }
 
-    public static void DealWithDamge(DamageInfo damageInfo) {
+    private static void DealWithDamge(DamageInfo damageInfo) {
         ChaState attacker = damageInfo.attacker;
         ChaState defender = damageInfo.defender;
         if (defender == null || defender.IsDead) {

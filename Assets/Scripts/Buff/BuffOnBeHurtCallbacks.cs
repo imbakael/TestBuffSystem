@@ -14,9 +14,10 @@ public class BuffOnBeHurtCallbacks {
     private static void DarkReflect(BuffObj buff, DamageInfo damageInfo) {
         if (!damageInfo.IsReflectDamge() && damageInfo.defender.currentProp.physicsResist / 2f > damageInfo.attacker.currentProp.physicsResist) {
             var damage = new Damage(dark: damageInfo.damage.GetValue() * 0.3f);
-            var newDamageInfo = new DamageInfo(damageInfo.defender, damageInfo.attacker, damage, new DamageInfoTag[] { DamageInfoTag.Reflect }, false);
-            newDamageInfo.ignoreElemDefencePercent = 100;
-            DamageManager.DealWithDamge(newDamageInfo);
+            var newDamageInfo = new DamageInfo(damageInfo.defender, damageInfo.attacker, damage, new DamageInfoTag[] { DamageInfoTag.Reflect }, false) {
+                ignoreElemDefencePercent = 100
+            };
+            DamageManager.AddDamageInfo(newDamageInfo);
         }
     }
 
@@ -37,7 +38,7 @@ public class BuffOnBeHurtCallbacks {
         if (!damageInfo.IsReflectDamge()) {
             var damage = new Damage(real: damageInfo.damage.GetValue() * 0.2f);
             var newDamageInfo = new DamageInfo(damageInfo.defender, damageInfo.attacker, damage, new DamageInfoTag[] { DamageInfoTag.Reflect }, false);
-            DamageManager.DealWithDamge(newDamageInfo);
+            DamageManager.AddDamageInfo(newDamageInfo);
         }
     }
 

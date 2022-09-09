@@ -48,7 +48,7 @@ public class BuffOnHitCallbacks {
         ChaState target = null;
         var damage = Damage.Copy(damageInfo.damage);
         var newDamageInfo = new DamageInfo(damageInfo.attacker, target, damage, null, false, DamageSource.None, true);
-        DamageManager.DealWithDamge(newDamageInfo);
+        DamageManager.AddDamageInfo(newDamageInfo);
     }
 
     private static void DarkPower(BuffObj buff, DamageInfo damageInfo) {
@@ -65,7 +65,7 @@ public class BuffOnHitCallbacks {
         var newDamgeInfo = new DamageInfo(damageInfo.attacker, damageInfo.defender, damage, new DamageInfoTag[] { DamageInfoTag.Direct }, false) {
             ignoreElemDefencePercent = 100
         };
-        DamageManager.DealWithDamge(newDamgeInfo);
+        DamageManager.AddDamageInfo(newDamgeInfo);
     }
 
     // ≥÷«π ±…À∫¶+30%
@@ -82,7 +82,7 @@ public class BuffOnHitCallbacks {
             int currentHp = damageInfo.defender.resource.hp;
             var damage = new Damage(real: currentHp / 3f);
             var newDamgeInfo = new DamageInfo(damageInfo.attacker, damageInfo.defender, damage, new DamageInfoTag[] { DamageInfoTag.Direct }, false);
-            DamageManager.DealWithDamge(newDamgeInfo);
+            DamageManager.AddDamageInfo(newDamgeInfo);
         }
     }
 

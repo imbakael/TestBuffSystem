@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
         }
 
-        // 2.回合中，玩家则等待玩家行动结束，AI则依次行动
+        // 2.回合中，玩家则等待玩家行动结束，AI则依次行动（移动、攻击、释放技能、待机）
         for (int i = 0; i < target.Count; i++) {
             yield return new WaitForSeconds(0.5f);
         }

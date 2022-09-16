@@ -51,6 +51,7 @@ public class BuffOnHitCallbacks {
         DamageManager.AddDamageInfo(newDamageInfo);
     }
 
+    // ±Ø¶¨±ØÉ±
     private static void DarkPower(BuffObj buff, DamageInfo damageInfo) {
         if (damageInfo.isCommonAttack && damageInfo.attacker.currentProp.darkResist / 2f > damageInfo.defender.currentProp.darkResist) {
             damageInfo.isCrit = true;

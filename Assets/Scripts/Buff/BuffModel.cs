@@ -2,7 +2,7 @@
 public class BuffModel {
     public int id;
     public string name;
-    public int priority;
+    public int priority; // 优先级，适用于同一个角色，按照优先级排序，先执行优先级高的
     public int maxStack; // 最大层数
     public string[] tags; // 比如poison，标记此buff是一个中毒buff
     public int tickTime; // 如2代表每2回合执行一次

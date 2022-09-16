@@ -11,10 +11,13 @@ public class BuffOnTickCallbacks {
         { "暗焰", DarkFire }
     };
 
-    // 对自身周围4格内的随机敌人早晨暗属性伤害，计算元素防御和暗抗
+    // 对自身周围4格内的随机敌人造成暗属性伤害，计算元素防御和暗抗
     private static void DarkFire(BuffObj buff) {
         // 搜素自身周围4格的所有敌人，然后随机选一个
         ChaState target = null;
+        if (target == null) {
+            return;
+        }
         float factor = buff.carrier.currentProp.darkResist / 100f * (1 + buff.carrier.currentProp.darkResist / 100f);
         float damageValue = buff.carrier.currentProp.elemStrength * Mathf.Max(0, factor);
         var damage = new Damage(dark: damageValue);

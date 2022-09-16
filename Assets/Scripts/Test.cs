@@ -10,6 +10,7 @@ public class Test : MonoBehaviour {
         // 产生一次普通攻击
         //Debug.Log("1 b.hp = " + b.resource.hp);
         //Attack(a, b);
+        //Debug.Log("一个月坐地铁花费：" + GetSubwayPrice(44, 7f));
     }
 
     private void Attack(ChaState attacker, ChaState defender) {
@@ -25,5 +26,17 @@ public class Test : MonoBehaviour {
         DamageManager.AddDamageInfo(damageInfo);
     }
 
+    private float GetSubwayPrice(int useCount, float singlePrice) {
+        float sum = 0;
+        for (int i = 0; i < useCount; i++) {
+            float factSinglePrice =
+                sum < 100f ? singlePrice * 0.9f :
+                sum >= 100f && sum < 200f ? singlePrice * 0.8f :
+                sum >= 200f && sum < 300f ? singlePrice * 0.7f :
+                singlePrice * 0.9f;
+            sum += factSinglePrice;
+        }
+        return sum;
+    }
 }
 

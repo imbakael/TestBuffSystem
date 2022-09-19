@@ -6,11 +6,14 @@ using UnityEngine;
 /// </summary>
 public class Damage {
 
+    // 物理伤害计算物理防御，计算必杀
     public float physics;
+    // 元素伤害计算元素防御，计算必杀
     public float fire;
     public float ice;
     public float thunder;
     public float poison;
+    // 光和暗特色：
     public float light;
     public float dark;
 

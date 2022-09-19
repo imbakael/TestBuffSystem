@@ -20,13 +20,13 @@ public class ChaProperty {
 
     // 各类抗性，取值范围是-200 ~ 95，也就是说最多受到300%伤害，最多减免95%伤害
     // 抗性只能用加法，比如初始物理抗性是0，装备增加20%抗性，buff减少50%抗性，则最终抗性是0 + 20 - 50 = -30
-    public int physicsResist;
-    public int fireResist;
-    public int iceResist;
-    public int thunderResist;
-    public int poisonResist;
-    public int lightResist;
-    public int darkResist;
+    public int physicsResist; // >=50%时免疫贯穿、流血
+    public int fireResist; // >=50%时免疫灼烧、点燃
+    public int iceResist; // >=50%时免疫寒冷、冰冻
+    public int thunderResist; // >=50%时免疫麻痹
+    public int poisonResist; // >=50%免疫中毒、剧毒、瘟疫
+    public int lightResist; // >=50%时任意回血效果提升30%
+    public int darkResist; // >=50%时最终伤害提升30%
 
     // 装备或buff属性
     private int attack = 0;

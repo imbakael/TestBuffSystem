@@ -72,13 +72,20 @@ public class DamageManager : MonoBehaviour {
         float realDefence = target.defence * GetPercent(damageInfo.ignoreDefencePercent);
         float realElemDefence = target.elemDefence * GetPercent(damageInfo.ignoreElemDefencePercent);
         float physics = Mathf.Max(0, DesignFormula.GetCritValue(damage.physics - realDefence, isCrit)) * GetPercent(target.physicsResist);
-        float fire = Mathf.Max(0, DesignFormula.GetCritValue(damage.fire - realElemDefence, isCrit)) * GetPercent(target.fireResist);
-        float ice =  Mathf.Max(0, DesignFormula.GetCritValue(damage.ice - realElemDefence, isCrit)) * GetPercent(target.iceResist);
-        float thunder = Mathf.Max(0, DesignFormula.GetCritValue(damage.thunder - realElemDefence, isCrit)) * GetPercent(target.thunderResist);
-        float poison = Mathf.Max(0, DesignFormula.GetCritValue(damage.poison - realElemDefence, isCrit)) * GetPercent(target.poisonResist);
-        float light = Mathf.Max(0, DesignFormula.GetCritValue(damage.light - realElemDefence, isCrit)) * GetPercent(target.lightResist);
-        float dark = Mathf.Max(0, DesignFormula.GetCritValue(damage.dark - realElemDefence, isCrit)) * GetPercent(target.darkResist);
-        return Mathf.RoundToInt(physics + fire + ice + thunder + poison + light + dark + damage.real);
+
+        float totalElem = damage.fire + damage.ice + damage.thunder + damage.poison + damage.light + damage.dark;
+        float totalElemDamage = DesignFormula.GetCritValue(totalElem - realElemDefence, isCrit);
+        if (totalElem > 0 && totalElemDamage > 0) {
+            float fire = damage.fire / totalElem * totalElemDamage * GetPercent(target.fireResist);
+            float ice = damage.ice / totalElem * totalElemDamage * GetPercent(target.iceResist);
+            float thunder = damage.thunder / totalElem * totalElemDamage * GetPercent(target.thunderResist);
+            float poison = damage.poison / totalElem * totalElemDamage * GetPercent(target.poisonResist);
+            float light = damage.light / totalElem * totalElemDamage * GetPercent(target.lightResist);
+            float dark = damage.dark / totalElem * totalElemDamage * GetPercent(target.darkResist);
+            return Mathf.RoundToInt(physics + fire + ice + thunder + poison + light + dark + damage.real);
+        }
+
+        return Mathf.RoundToInt(physics + damage.real);
     }
 
     private static float GetPercent(int value) {

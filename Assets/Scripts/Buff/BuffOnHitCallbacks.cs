@@ -12,8 +12,35 @@ public class BuffOnHitCallbacks {
         { "穿透火焰", PentrationFire },
         { "狙击", Snipe },
         { "混沌一击", ChaosAttack },
-        { "附火", FireAttack }
+        { "附火", FireAttack },
+        { "幽冥一击", GhostAttack },
+        { "xxx的诅咒", ZuzhouAttack },
+        { "湮灭", Destoy }
     };
+
+    private static void Destoy(BuffObj buff, DamageInfo damageInfo) {
+        if (damageInfo.defender.resource.hp * 1f / damageInfo.defender.currentProp.hp < 0.24f) {
+            damageInfo.damage.dark += 9999f;
+        }
+    }
+
+    private static void ZuzhouAttack(BuffObj buff, DamageInfo damageInfo) {
+        if (damageInfo.isCommonAttack) {
+            return;
+        }
+        damageInfo.damage *= 0.5f;
+        damageInfo.attacker.RemoveBuff((t) => t.model.id == buff.model.id);
+    }
+
+    // 普通攻击时，计算伤害时对方的物理防御不会超过自身
+    private static void GhostAttack(BuffObj buff, DamageInfo damageInfo) {
+        if (!damageInfo.isCommonAttack) {
+            return;
+        }
+        if (damageInfo.attacker.currentProp.defence < damageInfo.defender.currentProp.defence) {
+            damageInfo.defenceInFact = damageInfo.attacker.currentProp.defence;
+        }
+    }
 
     // 普通攻击中附加物理伤害30%的火属性伤害
     private static void FireAttack(BuffObj buff, DamageInfo damageInfo) {
@@ -51,10 +78,9 @@ public class BuffOnHitCallbacks {
         DamageManager.AddDamageInfo(newDamageInfo);
     }
 
-    // 必定必杀
     private static void DarkPower(BuffObj buff, DamageInfo damageInfo) {
         if (damageInfo.isCommonAttack && damageInfo.attacker.currentProp.darkResist / 2f > damageInfo.defender.currentProp.darkResist) {
-            damageInfo.isCrit = true;
+            damageInfo.damage.dark *= 1f + (damageInfo.attacker.currentProp.darkResist - damageInfo.defender.currentProp.darkResist) / 100f;
         }
     }
 

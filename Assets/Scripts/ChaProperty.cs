@@ -26,7 +26,7 @@ public class ChaProperty {
     public int thunderResist; // >=50%时免疫麻痹
     public int poisonResist; // >=50%免疫中毒、剧毒、瘟疫
     public int lightResist; // >=50%时任意回血效果提升30%
-    public int darkResist; // >=50%时最终伤害提升30%
+    public int darkResist; // >=50%时免疫精神类控制，如混乱等
 
     // 装备或buff属性
     private int attack = 0;

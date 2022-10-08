@@ -69,7 +69,7 @@ public class DamageManager : MonoBehaviour {
     public static int GetDamageValue(DamageInfo damageInfo, ChaProperty target) {
         Damage damage = damageInfo.damage;
         bool isCrit = damageInfo.isCrit;
-        float realDefence = target.defence * GetPercent(damageInfo.ignoreDefencePercent);
+        float realDefence = (damageInfo.defenceInFact != int.MaxValue ? damageInfo.defenceInFact : target.defence) * GetPercent(damageInfo.ignoreDefencePercent);
         float realElemDefence = target.elemDefence * GetPercent(damageInfo.ignoreElemDefencePercent);
         float physics = Mathf.Max(0, DesignFormula.GetCritValue(damage.physics - realDefence, isCrit)) * GetPercent(target.physicsResist);
 

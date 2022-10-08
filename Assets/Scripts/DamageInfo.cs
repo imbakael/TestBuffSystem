@@ -18,6 +18,8 @@ public class DamageInfo {
     public int ignoreDefencePercent = 0;
     public int ignoreElemDefencePercent = 0;
 
+    public int defenceInFact = int.MaxValue; // 计算伤害时采用的实际物理防御，如果值不为最大，则用此值代替受击者物防
+
     public List<AddBuffInfo> addBuffs = new List<AddBuffInfo>(); // 伤害后给角色添加的buff
 
     public DamageInfo(ChaState attacker, ChaState defender, Damage damage, DamageInfoTag[] tags, bool isCrit = false, DamageSource damageSource = DamageSource.None,
